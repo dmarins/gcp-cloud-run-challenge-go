@@ -1,8 +1,6 @@
 package usecase
 
-import (
-	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/web/repositories"
-)
+import "github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/repositories"
 
 type (
 	InputDTO struct {

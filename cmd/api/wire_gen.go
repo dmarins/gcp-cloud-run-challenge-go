@@ -7,8 +7,8 @@
 package main
 
 import (
+	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/repositories"
 	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/web/handlers"
-	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/web/repositories"
 	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/usecase"
 	"github.com/google/wire"
 	"net/http"

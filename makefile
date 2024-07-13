@@ -15,8 +15,8 @@ mocks-download:
 	$(GOCMD) install -mod=mod go.uber.org/mock/mockgen@latest
 
 mocks-gen: mocks-download 
-	@~/go/bin/mockgen -source=internal/infrastructure/web/repositories/weather-repository.go -destination=internal/usecase/mocks/weather-repository.go -typed=true -package=mock
-	@~/go/bin/mockgen -source=internal/infrastructure/web/repositories/zipcode-repository.go -destination=internal/usecase/mocks/zipcode-repository.go -typed=true -package=mock
+	@~/go/bin/mockgen -source=internal/infrastructure/repositories/weather-repository.go -destination=internal/usecase/mocks/weather-repository.go -typed=true -package=mock
+	@~/go/bin/mockgen -source=internal/infrastructure/repositories/zipcode-repository.go -destination=internal/usecase/mocks/zipcode-repository.go -typed=true -package=mock
 
 fmt:
 	go fmt ./...
