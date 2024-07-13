@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/dmarins/gcp-cloud-run-challenge-go/configs"
 	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/web/server"
@@ -14,7 +15,8 @@ func main() {
 		panic(err)
 	}
 
-	getWeatherByZipcodeUseCase := NewGetWeatherByZipcodeUseCase()
+	httpClient := http.DefaultClient
+	getWeatherByZipcodeUseCase := NewGetWeatherByZipcodeUseCase(httpClient)
 	weatherHttpHandler := NewWeatherHttpHandler(*getWeatherByZipcodeUseCase)
 
 	// Http Server

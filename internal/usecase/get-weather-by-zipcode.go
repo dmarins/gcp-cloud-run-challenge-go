@@ -1,27 +1,54 @@
 package usecase
 
+import (
+	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/web/repositories"
+)
+
 type (
-	WeatherInputDTO struct {
+	InputDTO struct {
 		Zipcode string `json:"zipcode"`
 	}
 
-	ZipcodeOutputDTO struct {
-		Location string `json:"localidade"`
+	OutputDTO struct {
+		Celsius    float64
+		Fahrenheit float64
+		Kelvin     float64
 	}
 
-	WeatherOutputDTO struct {
-		Celsius float64 `json:"celsius"`
+	GetWeatherByZipcodeUseCase struct {
+		ZipcodeRepository repositories.ZipcodeRepositoryInterface
+		WeatherRepository repositories.WeatherRepositoryInterface
 	}
-
-	GetWeatherByZipcodeUseCase struct{}
 )
 
-func NewGetWeatherByZipcodeUseCase() *GetWeatherByZipcodeUseCase {
-	return &GetWeatherByZipcodeUseCase{}
+func NewGetWeatherByZipcodeUseCase(zipcodeRepository repositories.ZipcodeRepositoryInterface, weatherRepository repositories.WeatherRepositoryInterface) *GetWeatherByZipcodeUseCase {
+	return &GetWeatherByZipcodeUseCase{
+		ZipcodeRepository: zipcodeRepository,
+		WeatherRepository: weatherRepository,
+	}
 }
 
-func (usecase *GetWeatherByZipcodeUseCase) Execute(input WeatherInputDTO) (WeatherOutputDTO, error) {
-	return WeatherOutputDTO{
-		Celsius: 22.5,
+func (usecase *GetWeatherByZipcodeUseCase) Execute(input InputDTO) (*OutputDTO, error) {
+
+	zipcode, err := usecase.ZipcodeRepository.GetZipcodeInfo(input.Zipcode)
+	if err != nil {
+		return nil, err
+	}
+	if zipcode == nil || zipcode.Location == "" {
+		return nil, nil
+	}
+
+	weather, err := usecase.WeatherRepository.GetWeatherInfo(zipcode.Location)
+	if err != nil {
+		return nil, err
+	}
+	if weather == nil {
+		return nil, nil
+	}
+
+	return &OutputDTO{
+		Celsius:    weather.Current.Celsius,
+		Fahrenheit: weather.Current.Fahrenheit,
+		Kelvin:     weather.Current.Celsius + 273,
 	}, nil
 }

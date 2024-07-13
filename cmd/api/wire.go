@@ -4,13 +4,28 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/web/handlers"
+	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/infrastructure/web/repositories"
 	"github.com/dmarins/gcp-cloud-run-challenge-go/internal/usecase"
 	"github.com/google/wire"
 )
 
-func NewGetWeatherByZipcodeUseCase() *usecase.GetWeatherByZipcodeUseCase {
+var setZipcodeRepository = wire.NewSet(
+	repositories.NewZipcodeRepository,
+	wire.Bind(new(repositories.ZipcodeRepositoryInterface), new(*repositories.ZipcodeRepository)),
+)
+
+var setWeatherRepository = wire.NewSet(
+	repositories.NewWeatherRepository,
+	wire.Bind(new(repositories.WeatherRepositoryInterface), new(*repositories.WeatherRepository)),
+)
+
+func NewGetWeatherByZipcodeUseCase(httpClient *http.Client) *usecase.GetWeatherByZipcodeUseCase {
 	wire.Build(
+		setZipcodeRepository,
+		setWeatherRepository,
 		usecase.NewGetWeatherByZipcodeUseCase,
 	)
 
