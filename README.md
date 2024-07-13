@@ -17,13 +17,13 @@ $ cd gcp-cloud-run-challenge-go
 $ go mod tidy
 ```
 
-## Run project
-
-```
-$ make run
-```
-
 ## Run tests
+
+```
+$ make tests
+```
+
+## Run project
 
 ```
 $ make run
