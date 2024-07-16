@@ -1,5 +1,6 @@
 WIRECMD=wire
 GOCMD=go
+DOCKERCOMPOSECMD=docker-compose
 
 .PHONY: wire
 
@@ -26,3 +27,11 @@ test-clean: fmt
 
 tests: fmt test-clean
 	$(GOCMD) test -cover -p=1 ./...
+
+dc-up:
+	$(DOCKERCOMPOSECMD) up -d --force-recreate
+
+dc-down:
+	docker-compose down --remove-orphans
+
+dc-restart: dc-down dc-up

@@ -29,6 +29,12 @@ $ make tests
 $ make run
 ```
 
+## Containers Up
+
+```
+$ make dc-up
+```
+
 ## REST API requests
 ```
 HTTP requests inside /.requests directory for local use
